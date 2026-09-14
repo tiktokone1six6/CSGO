@@ -1,0 +1,670 @@
+/* ============================================================
+   GLOBAL RESET + BASE
+============================================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: #0d0d0f;
+    color: #fff;
+    overflow: hidden;
+}
+
+h1,
+h2,
+h3 {
+    font-weight: 700;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+/* ============================================================
+   LOGIN SCREEN
+============================================================ */
+.login-container {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0d0d0f;
+}
+
+.login-card {
+    background: #15151a;
+    padding: 30px;
+    width: 350px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 20px #000;
+}
+
+.login-card h1 {
+    margin-bottom: 10px;
+}
+
+.login-subtitle {
+    opacity: 0.7;
+    margin-bottom: 20px;
+}
+
+.login-field {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.login-field label {
+    display: block;
+    margin-bottom: 5px;
+    opacity: 0.8;
+}
+
+.login-field input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    background: #1f1f25;
+    color: #fff;
+}
+
+.login-error {
+    margin-top: 10px;
+    color: #ff4d4d;
+}
+
+/* ============================================================
+   GAME AREA LAYOUT
+============================================================ */
+.game-area {
+    display: flex;
+    height: 100vh;
+}
+
+/* ============================================================
+   SIDEBAR
+============================================================ */
+.sidebar {
+    width: 240px;
+    background: #111115;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-right: 2px solid #1d1d22;
+}
+
+.sidebar-header {
+    margin-bottom: 20px;
+}
+
+.sidebar-title {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.sidebar-user {
+    margin-top: 5px;
+    opacity: 0.8;
+}
+
+.hud-rank {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 6px;
+    background: #333;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.side-btn {
+    padding: 10px;
+    background: #1a1a20;
+    color: #fff;
+    border-radius: 6px;
+    text-align: left;
+    transition: 0.2s;
+}
+
+.side-btn:hover {
+    background: #27272f;
+}
+
+.sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ============================================================
+   MAIN CONTENT
+============================================================ */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* ============================================================
+   HUD BAR
+============================================================ */
+.hud-bar {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    background: #15151a;
+    padding: 12px;
+    border-radius: 8px;
+    align-items: center;
+}
+
+.hud-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.hud-label {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.hud-value {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.xp-bar {
+    width: 150px;
+    height: 8px;
+    background: #333;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.xp-fill {
+    height: 100%;
+    width: 0%;
+    background: #4caf50;
+}
+
+.xp-text {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* ============================================================
+   VIEWS
+============================================================ */
+.view {
+    display: none;
+}
+
+.view.active {
+    display: block;
+}
+
+/* ============================================================
+   CLICKER
+============================================================ */
+.big-click-btn {
+    font-size: 32px;
+    padding: 40px 60px;
+    background: #4caf50;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 700;
+    transition: 0.1s;
+}
+
+.big-click-btn:active {
+    transform: scale(0.95);
+}
+
+/* ============================================================
+   CASE OPENING
+============================================================ */
+.case-price-box {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.case-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.case-result {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.roll-viewport {
+    width: 100%;
+    height: 160px;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #222;
+}
+
+.roll-strip {
+    display: flex;
+    gap: 12px;
+    padding: 20px;
+    transition: transform 3s cubic-bezier(.08, .6, .14, 1);
+}
+
+.roll-strip .inventory-item {
+    width: 140px;
+    height: 100px;
+    background: #1f1f25;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+/* ============================================================
+   INVENTORY
+============================================================ */
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.inventory-item {
+    background: #1a1a20;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #333;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.inventory-item:hover {
+    background: #22222a;
+}
+
+/* Rarity Colors */
+.rarity-milspec {
+    border-color: #4a90e2;
+}
+
+.rarity-restricted {
+    border-color: #9b59b6;
+}
+
+.rarity-classified {
+    border-color: #e91e63;
+}
+
+.rarity-covert {
+    border-color: #ff4444;
+}
+
+.rarity-contraband {
+    border-color: #ff9900;
+}
+
+.rarity-knives {
+    border-color: #00eaff;
+}
+
+.rarity-hyper {
+    border-color: #ff00aa;
+    margin: 0;
+        height: inherit;
+        background: linear-gradient(135deg, #ff00aa, #000000);
+        overflow: hidden;
+        position: relative;
+}
+
+/* Glare layer */
+.rarity-hyper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg,
+            transparent,
+            rgba(255, 255, 255, 0.4),
+            transparent);
+    transform: skewX(-25deg);
+    animation: glare 2s infinite;
+}
+
+@keyframes glare {
+    0% {
+        left: -100%;
+    }
+
+    50% {
+        left: 150%;
+    }
+
+    100% {
+        left: 150%;
+    }
+}
+
+/* ============================================================
+   UPGRADES
+============================================================ */
+.upgrade-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.upgrade-item {
+    background: #1a1a20;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #333;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.upgrade-item:hover {
+    background: #22222a;
+}
+
+/* ============================================================
+   MYSTERY BOX
+============================================================ */
+.mystery-result {
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+/* ============================================================
+   BLACKJACK
+============================================================ */
+.blackjack-area {
+    background: #15151a;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.bj-cards {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.bj-card {
+    background: #222;
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-size: 20px;
+}
+
+.bj-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.bj-result {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* ============================================================
+   LEADERBOARD
+============================================================ */
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+}
+
+.leaderboard-table th {
+    background: #1a1a20;
+}
+
+/* ============================================================
+   SETTINGS
+============================================================ */
+.settings-group {
+    margin-bottom: 20px;
+}
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+.btn {
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.btn.primary {
+    background: #4caf50;
+}
+
+.btn.secondary {
+    background: #3a3a40;
+}
+
+.btn.danger {
+    background: #d9534f;
+}
+
+.btn.full {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn.small {
+    padding: 6px 10px;
+}
+
+/* ============================================================
+   MODALS
+============================================================ */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: #15151a;
+    padding: 25px;
+    border-radius: 12px;
+    width: 400px;
+}
+
+.modal-field {
+    margin-bottom: 15px;
+}
+
+.modal-field input {
+    width: 100%;
+    padding: 10px;
+    background: #1f1f25;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+}
+
+.modal-error {
+    color: #ff4d4d;
+    margin-bottom: 10px;
+}
+
+/* ============================================================
+   OWNER PANEL
+============================================================ */
+.owner-panel {
+    width: 600px;
+}
+
+.owner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.owner-tabs {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.admin-tab {
+    padding: 8px 12px;
+    background: #1f1f25;
+    border-radius: 6px;
+}
+
+.admin-tab.active {
+    background: #4caf50;
+}
+
+.admin-tab-content {
+    display: none;
+}
+
+.admin-tab-content.active {
+    display: block;
+}
+
+/* ============================================================
+   TROLL EFFECTS
+============================================================ */
+.flashbang {
+    position: fixed;
+    inset: 0;
+    background: white;
+    opacity: 1;
+    animation: flash 0.8s forwards;
+}
+
+@keyframes flash {
+    to {
+        opacity: 0;
+    }
+}
+
+.screen-shake {
+    animation: shake 0.6s;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(5px, -5px);
+    }
+
+    50% {
+        transform: translate(-5px, 5px);
+    }
+
+    75% {
+        transform: translate(5px, 5px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.inverted {
+    filter: invert(1);
+}
+
+/* ============================================================
+   DEBUG CONSOLE
+============================================================ */
+.debug-console {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 420px;
+    height: 260px;
+    background: #111;
+    border: 2px solid #333;
+    border-radius: 8px 0 0 0;
+    display: none;
+    flex-direction: column;
+}
+
+.debug-header {
+    background: #222;
+    padding: 8px;
+    font-weight: 700;
+}
+
+.debug-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    font-size: 12px;
+}
+
+/* ============================================================
+   THEMES
+============================================================ */
+.theme-darkmatter {
+    background: #0d0d0f;
+}
+
+.theme-electric {
+    background: #001f3f;
+}
+
+.theme-fire {
+    background: #2b0000;
+}
+
+.theme-hyper {
+    background: #1a001a;
+}
+
+.theme-neo {
+    background: #001a0f;
+}
+
+.theme-light {
+    background: #f2f2f2;
+    color: #000;
+}

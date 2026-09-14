@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>A3‑ULTRA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="theme-darkmatter">
+
+    <!-- ========================================================= -->
+    <!-- DEBUG CONSOLE (F2 TO OPEN) -->
+    <!-- ========================================================= -->
+    <div id="debugConsole" class="debug-console">
+        <div class="debug-header">DEBUG CONSOLE (F2)</div>
+        <pre id="debugBody" class="debug-body"></pre>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MAIN APP WRAPPER -->
+    <!-- ========================================================= -->
+    <div id="appWrapper">
+        <!-- ========================================================= -->
+        <!-- LOGIN SCREEN -->
+        <!-- ========================================================= -->
+        <div id="loginContainer" class="login-container">
+            <div class="login-card">
+                <h1>A3‑ULTRA</h1>
+                <p class="login-subtitle">CS:GO‑style clicker • cases • minigames</p>
+
+                <div class="login-field">
+                    <label for="loginUsername">Username</label>
+                    <input id="loginUsername" type="text" autocomplete="off" placeholder="Enter username">
+                </div>
+
+                <div class="login-field">
+                    <label for="loginPassword">Password</label>
+                    <input id="loginPassword" type="password" placeholder="Enter password">
+                </div>
+
+                <button id="loginBtn" class="btn primary">Login / Create Account</button>
+
+                <div id="loginError" class="login-error" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- GAME AREA -->
+        <!-- ========================================================= -->
+        <div id="gameArea" class="game-area" style="display:none;">
+
+            <!-- ===================== SIDEBAR ======================= -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="sidebar-title">A3‑ULTRA</div>
+                    <div class="sidebar-user">
+                        <span id="hudUsername">User</span>
+                        <span id="hudRank" class="hud-rank">Rookie</span>
+                    </div>
+                </div>
+                <!-- SIDEBAR NAVIGATION -->
+                <nav class="sidebar-nav">
+                    <button class="side-btn" data-view-target="clickerView">Clicker</button>
+                    <button class="side-btn" data-view-target="casesView">Cases</button>
+                    <button class="side-btn" data-view-target="inventoryView">Inventory</button>
+                    <button class="side-btn" data-view-target="upgradesView">Upgrades</button>
+                    <button class="side-btn" data-view-target="mysteryView">Mystery Box</button>
+                    <button class="side-btn" data-view-target="blackjackView">Blackjack</button>
+                    <button class="side-btn" data-view-target="leaderboardView">Leaderboard</button>
+                    <button class="side-btn" data-view-target="settingsView">Settings</button>
+                </nav>
+
+                <!-- SIDEBAR FOOTER -->
+                <div class="sidebar-footer">
+                    <button id="openOwnerPanelBtn" class="btn small owner-btn" style="display:none;">Owner
+                        Panel</button>
+                    <button id="rebirthBtn" class="btn small rebirth-btn">Rebirth</button>
+                </div>
+            </aside>
+
+            <!-- ===================== MAIN CONTENT =================== -->
+            <main class="main-content">
+
+                <!-- ===================== HUD BAR ===================== -->
+                <header class="hud-bar">
+                    <div class="hud-group">
+                        <span class="hud-label">Money</span>
+                        <span id="moneyDisplay" class="hud-value">$0</span>
+                    </div>
+
+                    <div class="hud-group">
+                        <span class="hud-label">Cases</span>
+                        <span id="caseCountDisplay" class="hud-value">0</span>
+                    </div>
+
+                    <div class="hud-group">
+                        <span class="hud-label">Clicks</span>
+                        <span id="clickCountDisplay" class="hud-value">0</span>
+                    </div>
+
+                    <div class="hud-group">
+                        <span class="hud-label">CPS</span>
+                        <span id="cpsDisplay" class="hud-value">0.0</span>
+                    </div>
+
+                    <div class="hud-group hud-xp">
+                        <span class="hud-label">XP</span>
+                        <div class="xp-bar">
+                            <div id="xpFill" class="xp-fill"></div>
+                        </div>
+                        <span id="xpText" class="xp-text">Level 1 • 0 / 100 XP</span>
+                    </div>
+                </header>
+                <!-- ========================================================= -->
+                <!-- CLICKER VIEW -->
+                <!-- ========================================================= -->
+                <section id="clickerView" class="view active">
+                    <h2>Clicker</h2>
+                    <button id="bigClickBtn" class="big-click-btn">CLICK</button>
+                </section>
+
+                <!-- ========================================================= -->
+                <!-- CASES VIEW -->
+                <!-- ========================================================= -->
+                <section id="casesView" class="view">
+                    <h2>Case Opening</h2>
+
+                    <div class="case-price-box">
+                        <span>Case Price:</span>
+                        <span id="casePriceValue">$100</span>
+                    </div>
+
+                    <div class="case-buttons">
+                        <button id="openCaseBtn" class="btn primary">Open 1 Case</button>
+                        <button id="open10CasesBtn" class="btn secondary">Open 10 Cases</button>
+                    </div>
+
+                    <div id="caseResult" class="case-result">Ready to roll…</div>
+
+                    <div id="rollViewport" class="roll-viewport">
+                        <div id="rollStrip" class="roll-strip"></div>
+                    </div>
+                </section>
+
+                <!-- ========================================================= -->
+                <!-- INVENTORY VIEW -->
+                <!-- ========================================================= -->
+                <section id="inventoryView" class="view">
+                    <h2>Inventory</h2>
+                    <div id="inventoryGrid" class="inventory-grid"></div>
+                </section>
+
+                <!-- ========================================================= -->
+                <!-- UPGRADES VIEW -->
+                <!-- ========================================================= -->
+                <section id="upgradesView" class="view">
+                    <h2>Upgrades</h2>
+
+                    <div class="upgrade-list">
+
+                        <div class="upgrade-item" data-upg="clickPower">
+                            <h3>Click Power</h3>
+                            <p>Increase money per click.</p>
+                        </div>
+
+                        <div class="upgrade-item" data-upg="autoClicker">
+                            <h3>Auto Clicker</h3>
+                            <p>Automatically generates clicks.</p>
+                        </div>
+
+                        <div class="upgrade-item" data-upg="luckBoost">
+                            <h3>Luck Boost</h3>
+                            <p>Better case odds.</p>
+                        </div>
+
+                        <div class="upgrade-item" data-upg="caseDiscount">
+                            <h3>Case Discount</h3>
+                            <p>Lower case prices.</p>
+                        </div>
+
+                        <div class="upgrade-item" data-upg="xpBoost">
+                            <h3>XP Boost</h3>
+                            <p>Gain XP faster.</p>
+                        </div>
+
+                        <div class="upgrade-item" data-upg="inventorySize">
+                            <h3>Inventory Size</h3>
+                            <p>Hold more items.</p>
+                        </div>
+
+                        <div class="upgrade-item" data-upg="rebirthBoost">
+                            <h3>Rebirth Boost</h3>
+                            <p>Increase rebirth rewards.</p>
+                        </div>
+
+                    </div>
+                </section>
+                <!-- ========================================================= -->
+                <!-- MYSTERY BOX VIEW -->
+                <!-- ========================================================= -->
+                <section id="mysteryView" class="view">
+                    <h2>Mystery Box</h2>
+
+                    <button id="openMysteryBtn" class="btn primary">Open Mystery Box</button>
+
+                    <div id="mysteryResult" class="mystery-result">
+                        Ready to open…
+                    </div>
+                </section>
+
+                <!-- ========================================================= -->
+                <!-- BLACKJACK VIEW -->
+                <!-- ========================================================= -->
+                <section id="blackjackView" class="view">
+                    <h2>Blackjack</h2>
+
+                    <div class="blackjack-area">
+
+                        <div class="bj-section">
+                            <h3>Dealer</h3>
+                            <div id="bjDealer" class="bj-cards"></div>
+                        </div>
+
+                        <div class="bj-section">
+                            <h3>You</h3>
+                            <div id="bjPlayer" class="bj-cards"></div>
+                        </div>
+
+                        <div class="bj-buttons">
+                            <button id="bjHitBtn" class="btn primary">Hit</button>
+                            <button id="bjStandBtn" class="btn secondary">Stand</button>
+                        </div>
+
+                        <div id="bjResult" class="bj-result">Press Hit to start.</div>
+                    </div>
+                </section>
+
+                <!-- ========================================================= -->
+                <!-- LEADERBOARD VIEW -->
+                <!-- ========================================================= -->
+                <section id="leaderboardView" class="view">
+                    <h2>Leaderboard</h2>
+
+                    <table id="leaderboardTable" class="leaderboard-table">
+                        <tr>
+                            <th>User</th>
+                            <th>Rank</th>
+                            <th>Money</th>
+                            <th>Level</th>
+                        </tr>
+                    </table>
+                </section>
+
+                <!-- ========================================================= -->
+                <!-- SETTINGS VIEW -->
+                <!-- ========================================================= -->
+                <section id="settingsView" class="view">
+                    <h2>Settings</h2>
+
+                    <div class="settings-group">
+                        <label>Theme</label>
+                        <select id="themeSelect">
+                            <option value="darkmatter">Dark Matter</option>
+                            <option value="electric">Electric</option>
+                            <option value="fire">Fire</option>
+                            <option value="hyper">Hyper</option>
+                            <option value="neo">Neo</option>
+                            <option value="light">Light</option>
+                        </select>
+                    </div>
+
+                    <div class="settings-group">
+                        <label>
+                            <input type="checkbox" id="sfxToggle" checked>
+                            Sound Effects
+                        </label>
+                    </div>
+
+                    <div class="settings-group">
+                        <label>
+                            <input type="checkbox" id="streamerModeToggle">
+                            Streamer Mode
+                        </label>
+                    </div>
+                </section>
+                <!-- ========================================================= -->
+                <!-- OWNER LOGIN MODAL -->
+                <!-- ========================================================= -->
+                <div id="ownerLoginModal" class="modal hidden">
+                    <div class="modal-content">
+                        <h2>Owner Login</h2>
+
+                        <div class="modal-field">
+                            <label>Username</label>
+                            <input id="ownerUserInput" type="text">
+                        </div>
+
+                        <div class="modal-field">
+                            <label>Password</label>
+                            <input id="ownerPassInput" type="password">
+                        </div>
+
+                        <div id="ownerLoginError" class="modal-error" style="display:none;"></div>
+
+                        <div class="modal-buttons">
+                            <button id="ownerLoginBtn" class="btn primary">Login</button>
+                            <button id="ownerLoginCancelBtn" class="btn secondary">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- OWNER PANEL -->
+                <!-- ========================================================= -->
+                <div id="ownerPanelModal" class="modal hidden">
+                    <div class="modal-content owner-panel">
+
+                        <div class="owner-header">
+                            <h2>Owner Panel</h2>
+                            <button id="ownerPanelCloseBtn" class="btn small danger">Close</button>
+                        </div>
+
+                        <!-- OWNER TABS -->
+                        <div class="owner-tabs">
+                            <button class="admin-tab active" data-owner-tab="ownerPowersTab">Powers</button>
+                            <button class="admin-tab" data-owner-tab="ownerSpawnTab">Spawn</button>
+                            <button class="admin-tab" data-owner-tab="ownerTrollTab">Troll</button>
+                        </div>
+
+                        <!-- OWNER TAB CONTENTS -->
+                        <div class="owner-tab-contents">
+
+                            <!-- POWERS TAB -->
+                            <div id="ownerPowersTab" class="admin-tab-content active">
+                                <h3>Owner Powers</h3>
+
+                                <button id="opInfiniteMoneyBtn" class="btn full">Infinite Money</button>
+                                <button id="opInfiniteXpBtn" class="btn full">Infinite XP</button>
+                                <button id="opMaxLevelBtn" class="btn full">Max Level</button>
+                                <button id="opGodModeBtn" class="btn full">Toggle God Mode</button>
+                                <button id="opLuckModeBtn" class="btn full">Toggle Luck Mode</button>
+                            </div>
+
+                            <!-- SPAWN TAB -->
+                            <div id="ownerSpawnTab" class="admin-tab-content">
+                                <h3>Spawn Items</h3>
+
+                                <button id="spawnItemBtn" class="btn full">Spawn Milspec</button>
+                                <button id="spawnHyperBtn" class="btn full">Spawn Hyper</button>
+                                <button id="spawnContrabandBtn" class="btn full">Spawn Contraband</button>
+                                <button id="spawnKnifeBtn" class="btn full">Spawn Knife</button>
+
+                                <h3>Inventory Tools</h3>
+                                <input id="invItemIdInput" type="number" placeholder="Item index">
+                                <button id="invDuplicateBtn" class="btn full">Duplicate Item</button>
+                                <button id="invDeleteBtn" class="btn full danger">Delete Item</button>
+                            </div>
+
+                            <!-- TROLL TAB -->
+                            <div id="ownerTrollTab" class="admin-tab-content">
+                                <h3>Troll Tools</h3>
+
+                                <button id="trollFakePullBtn" class="btn full">Fake Hyper Pull</button>
+                                <button id="trollFakeBalanceBtn" class="btn full">Fake Balance</button>
+                                <button id="trollGhostInventoryBtn" class="btn full">Ghost Inventory</button>
+                                <button id="trollScreenShakeBtn" class="btn full">Screen Shake</button>
+                                <button id="trollFlashbangBtn" class="btn full">Flashbang</button>
+                                <button id="trollInvertControlsBtn" class="btn full">Invert Controls</button>
+                                <button id="trollFakeBanBtn" class="btn full danger">Fake Ban Popup</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div> <!-- END GAME AREA -->
+
+    </div> <!-- END APP WRAPPER -->
+    <!-- ========================================================= -->
+    <!-- SCRIPT -->
+    <!-- ========================================================= -->
+    <script src="script.js"></script>
+
+    <!-- Code injected by live-server -->
+    <script>
+        // <![CDATA[  <-- For SVG support
+        if ('WebSocket' in window) {
+            (function () {
+                function refreshCSS() {
+                    var sheets = [].slice.call(document.getElementsByTagName("link"));
+                    var head = document.getElementsByTagName("head")[0];
+                    for (var i = 0; i < sheets.length; ++i) {
+                        var elem = sheets[i];
+                        var parent = elem.parentElement || head;
+                        parent.removeChild(elem);
+                        var rel = elem.rel;
+                        if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+                            var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+                            elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+                        }
+                        parent.appendChild(elem);
+                    }
+                }
+                var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+                var address = protocol + window.location.host + window.location.pathname + '/ws';
+                var socket = new WebSocket(address);
+                socket.onmessage = function (msg) {
+                    if (msg.data == 'reload') window.location.reload();
+                    else if (msg.data == 'refreshcss') refreshCSS();
+                };
+                if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+                    console.log('Live reload enabled.');
+                    sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+                }
+            })();
+        }
+        else {
+            console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+        }
+        // ]]>
+    </script>
+</body>
+
+</html>
